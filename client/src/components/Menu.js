@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
-// import './Menu.css';
 import MenuItem from './MenuItem'
-
 import { connect } from 'react-redux';
 import { getMenu } from '../actions/menuItemActions';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 class Menu extends Component {
 
   componentDidMount() {
     this.props.getMenu();
+
+
   }
   state = {
     menuItems: [],
     cart:[],
     showMenu: true,
   }
-
+  
+  
   showItemHandler = (event) =>{
     const temp = !this.state.showMenu;
     this.setState(
@@ -28,7 +29,6 @@ class Menu extends Component {
     const newStateMenu = [...this.props.menuItem.menuItems];
     const num = this.props.menuItem.menuItems[menuIndex].quantity+1;
     newStateMenu[menuIndex].quantity = num;
-
     const newStateCart = [...this.state.cart];
     const cat = this.props.menuItem.menuItems[menuIndex].category;
     const nm = this.props.menuItem.menuItems[menuIndex].name;
@@ -56,7 +56,6 @@ class Menu extends Component {
   }
 
   render() {
-
     const style = {
       backgroundColor: 'teal',
       font: 'inherit',
@@ -64,17 +63,18 @@ class Menu extends Component {
       padding: '8px',
       cursor: 'pointer'
     }
-    const style2={
-      backgroundColor: 'aqua',
-      font: 'inherit',
-      border: '1px black',
-      padding: '5px',
-      curson: 'pointer'
-    }
+    // const style ={
+    //   backgroundColor: 'aqua',
+    //   font: 'inherit',
+    //   border: '1px black',
+    //   padding: '5px',
+    //   curson: 'pointer'
+    // }
     let menuItems = null;
     let subtotal = 0;
     let title = "";
     let otherTitle = "";
+
     for(let i = 0; i < this.state.cart.length;i++){
       subtotal+=this.state.cart[i].price;
     }
@@ -87,7 +87,8 @@ class Menu extends Component {
               return(<MenuItem click = {() => this.menuClickHandler(index)} name = {menuItems.name} price = {menuItems.price} quantity = {menuItems.quantity}/>)
           })}
         </div> 
-    );}
+      );
+    }
     else{
       title = "Cart"
       otherTitle = "Menu";
@@ -111,7 +112,9 @@ class Menu extends Component {
             onClick={this.clearCart.bind(this, "Menu")}>Clear Cart</button>
           <ul>{menuItems}</ul>
         </div>
+
     );
+
     // return (React.createElement('div',{className: 'App'},React.createElement('h1',null,"yo whats good")));
   }
 }
@@ -122,6 +125,7 @@ Menu.propTypes = {
 }
 const mapStateToProps = (state) => ({
   menuItem: state.menuItem
+
 })
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../style/MenuItem.css';
 const menuItem = (props) => {
-	if(props.quantity == 0||props.quantity == null){
+	if(props.quantity === 0 || props.quantity === null){
 		return(
 			<div className = "MenuItem">
 				<p onClick={props.click}>Item: {props.name} || Cost: ${props.price}</p>

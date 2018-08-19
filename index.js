@@ -41,7 +41,8 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
     const newMenuItem = new MenuItem({
         name: req.body.name,
-        price: req.body.price
+        price: req.body.price,
+        quantity: req.body.quantity
     })
     
     newMenuItem.save().then(item => res.json(item));
