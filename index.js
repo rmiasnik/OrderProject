@@ -29,7 +29,7 @@ const MenuItem = require('./models/MenuItem');
 // @desc    Get all menu items
 // @access  Public
 
-app.get('/', (req, res) => {
+app.get('/menu', (req, res) => {
     MenuItem.find()
         .then(menuItems => res.json(menuItems));
 })
@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 // @desc    Create a menu item
 // @access  Public
 
-app.post('/', (req, res) => {
+app.post('/menu', (req, res) => {
     const newMenuItem = new MenuItem({
         name: req.body.name,
         price: req.body.price,
@@ -52,7 +52,7 @@ app.post('/', (req, res) => {
 // @desc    Delete a menu item
 // @access  Public
 
-app.delete('/:id', (req, res) => {
+app.delete('/menu/:id', (req, res) => {
     MenuItem.findById(req.params.id)
         .then(item => item.remove(). then(() => res.json({success: true})))
         .catch(err => res.status(404).json({success: false}));

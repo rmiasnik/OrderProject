@@ -12,7 +12,6 @@ class App extends Component {
                     <Menu />
                 </div>
             </Provider>
-
         )
     }
 }

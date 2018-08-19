@@ -26,12 +26,14 @@ export default function(state = initialState, action ) {
 
     switch(action.type) {
         case GET_MENU: 
+            console.log(action.payload);
             return {
+
                 ...state,
-                // menuItems: JSON.parse(action.payload),
-                menuItems: [
-                    {_id:"5b78f22c5be59824d5955366",name:"Soup",price:10,quantity:0,__v:0},
-                    {_id:"5b78f2365be59824d5955367",name:"Salad",price:6,quantity:0,__v:0}],
+                menuItems: action.payload,
+                // menuItems: [
+                //     {_id:"5b78f22c5be59824d5955366",name:"Soup",price:10,quantity:0,__v:0},
+                //     {_id:"5b78f2365be59824d5955367",name:"Salad",price:6,quantity:0,__v:0}],
                 loading: false,
             };
         case ITEMS_LOADING:

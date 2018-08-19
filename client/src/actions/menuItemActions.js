@@ -3,7 +3,7 @@ import { GET_MENU , ITEMS_LOADING} from './types';
 
 export const getMenu = () => dispatch => {
     dispatch(setItemsLoading());
-    axios.get('/').then(res =>
+    axios.get('/menu').then(res =>
         dispatch({
             type: GET_MENU,
             payload: res.data
