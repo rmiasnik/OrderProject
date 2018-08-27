@@ -33,7 +33,17 @@ class Menu extends Component {
     const cat = this.props.menuItem.menuItems[menuIndex].category;
     const nm = this.props.menuItem.menuItems[menuIndex].name;
     const prc = this.props.menuItem.menuItems[menuIndex].price;
-    newStateCart.push({category: cat, name: nm, price: prc});
+    let count = this.props.menuItem.menuItems[menuIndex].quantity;
+    if(count == 1){
+      newStateCart.push({category: cat, name: nm, price: prc,quantity: count});
+    }
+    else{
+      for(let i = 0; i < newStateCart.length; i++){
+        if(newStateCart[i].name == newStateMenu[menuIndex].name){
+          newStateCart[i].quantity++;
+        }
+      }
+    }
     this.setState(
       {
         menuItems: newStateMenu,
@@ -54,7 +64,15 @@ class Menu extends Component {
       }
     )
   }
-
+  deleteOne = (menuIndex) =>{
+    const newCart = [...this.state.cart];
+    newCart.splice(menuIndex,1);
+    this.setState(
+      {
+        cart: newCart
+      }
+    )
+  }
   render() {
     const style = {
       backgroundColor: 'teal',
@@ -94,8 +112,8 @@ class Menu extends Component {
       otherTitle = "Menu";
       menuItems = (
         <div>
-          {this.state.cart.map(cart =>{
-              return(<MenuItem name = {cart.name} price = {cart.price}/>);
+          {this.state.cart.map((cart,index) =>{
+              return(<MenuItem click = {() => this.deleteOne(index)} name = {cart.name} price = {cart.price} quantity = {cart.quantity}/>);
           })}
         </div> 
       );
