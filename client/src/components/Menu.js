@@ -64,14 +64,71 @@ class Menu extends Component {
       }
     )
   }
-  deleteOne = (menuIndex) =>{
+  deleteAllOfOne = (menuIndex) =>{
+    if(this.state.cart.length == 0){
+      return;
+    }
     const newCart = [...this.state.cart];
+    const newMenu = [...this.props.menuItem.menuItems];
+    for(let i = 0; i < newMenu.length; i++){
+      if(newMenu[i].name == newCart[menuIndex].name){
+        newMenu[i].quantity = 0;
+      }
+    }
     newCart.splice(menuIndex,1);
     this.setState(
       {
-        cart: newCart
+        cart: newCart,
+        menuItems: newMenu
       }
     )
+  }
+  deleteSingleCart = (menuIndex) =>{
+    const newCart = [...this.state.cart];
+    const newMenu = [...this.props.menuItem.menuItems];
+    for(let i = 0; i < newMenu.length; i++){
+      if(newMenu[i].name == newCart[menuIndex].name && newMenu[i].quantity != 0){
+        newMenu[i].quantity--;
+      }
+    }
+    if(newCart[menuIndex].quantity == 1){//splice if 1
+      newCart.splice(menuIndex,1);
+    }
+    else if(newCart[menuIndex].quantity == 0){//do nothing for 0
+
+    }
+    else{
+      newCart[menuIndex].quantity--;
+    }
+    this.setState({
+        cart: newCart,
+        menuItems: newMenu
+    })
+  }
+  deleteSingleMenu = (menuIndex) =>{
+    if(this.state.cart.length == 0){
+      return;
+    }
+    const newCart = [...this.state.cart];
+    const newMenu = [...this.props.menuItem.menuItems];
+    for(let i = 0; i < newCart.length; i++){
+      if(newCart[i].name == newMenu[menuIndex].name && newMenu[menuIndex].quantity != 1){
+        newCart[i].quantity--;
+      }
+      if(newCart[i].name == newMenu[menuIndex].name && newMenu[menuIndex].quantity == 1){
+        newCart.splice(i,1);
+      }
+    }
+    if(newMenu[menuIndex].quantity == 0){//do nothing for 0
+
+    }
+    else{
+      newMenu[menuIndex].quantity--;
+    }
+    this.setState({
+        cart: newCart,
+        menuItems: newMenu
+    })
   }
   render() {
     const style = {
@@ -102,7 +159,7 @@ class Menu extends Component {
       menuItems = (
         <div>
           {this.props.menuItem.menuItems.map((menuItems,index) =>{
-              return(<MenuItem click = {() => this.menuClickHandler(index)} name = {menuItems.name} price = {menuItems.price} quantity = {menuItems.quantity}/>)
+              return(<MenuItem click = {() => this.menuClickHandler(index)} deleteSingle = {()=>this.deleteSingleMenu(index)} name = {menuItems.name} price = {menuItems.price} quantity = {menuItems.quantity} boolIsCart = {false}/>)
           })}
         </div> 
       );
@@ -113,7 +170,7 @@ class Menu extends Component {
       menuItems = (
         <div>
           {this.state.cart.map((cart,index) =>{
-              return(<MenuItem click = {() => this.deleteOne(index)} name = {cart.name} price = {cart.price} quantity = {cart.quantity}/>);
+              return(<MenuItem click = {() => this.menuClickHandler(index)} deleteSingle = {()=>this.deleteSingleCart(index)} deleteAll = {() => this.deleteAllOfOne(index)} name = {cart.name} price = {cart.price} quantity = {cart.quantity} boolIsCart = {true}/>);
           })}
         </div> 
       );
