@@ -4,15 +4,15 @@ import { connect } from 'react-redux';
 import { getMenu } from '../actions/menuItemActions';
 import PropTypes from 'prop-types';
 class Menu extends Component {
-
   componentDidMount() {
     this.props.getMenu();
-
-
   }
   state = {
     menuItems: [],
     cart:[],
+    appetizer:[],
+    entree:[],
+    dessert:[],
     showMenu: true,
   }
   
@@ -25,29 +25,143 @@ class Menu extends Component {
         }
       )
   }
-  menuClickHandler = (menuIndex) =>{
-    const newStateMenu = [...this.props.menuItem.menuItems];
-    const num = this.props.menuItem.menuItems[menuIndex].quantity+1;
-    newStateMenu[menuIndex].quantity = num;
+  addCart = (menuIndex) =>{
+    const newStateApp = [...this.state.appetizer];
+    const newStateEnt = [...this.state.entree];
+    const newStateDes = [...this.state.dessert];
     const newStateCart = [...this.state.cart];
-    const cat = this.props.menuItem.menuItems[menuIndex].category;
-    const nm = this.props.menuItem.menuItems[menuIndex].name;
-    const prc = this.props.menuItem.menuItems[menuIndex].price;
-    let count = this.props.menuItem.menuItems[menuIndex].quantity;
-    if(count == 1){
+    if(newStateCart[menuIndex].category === "Appetizer"){
+      const num = this.state.cart[menuIndex].quantity+1;
+      newStateCart[menuIndex].quantity = num;
+      const cat = newStateCart[menuIndex].category;
+      const nm = newStateCart[menuIndex].name;
+      const prc = newStateCart[menuIndex].price;
+      let count = newStateCart[menuIndex].quantity;
+      if(count === 1){
+        newStateCart.push({category: cat, name: nm, price: prc,quantity: count});
+      }
+      for(let i = 0; i < newStateApp.length; i++){
+        if(newStateApp[i].name === newStateCart[menuIndex].name){
+          newStateApp[i].quantity++;
+        }
+      }
+    }
+    else if(newStateCart[menuIndex].category === "Entree"){
+      const num = this.state.cart[menuIndex].quantity+1;
+      newStateCart[menuIndex].quantity = num;
+      const cat = newStateCart[menuIndex].category;
+      const nm = newStateCart[menuIndex].name;
+      const prc = newStateCart[menuIndex].price;
+      let count = newStateCart[menuIndex].quantity;
+      if(count === 1){
+        newStateCart.push({category: cat, name: nm, price: prc,quantity: count});
+      }
+      for(let i = 0; i < newStateEnt.length; i++){
+        if(newStateEnt[i].name === newStateCart[menuIndex].name){
+          newStateEnt[i].quantity++;
+        }
+      }
+    }
+    else{
+      const num = this.state.cart[menuIndex].quantity+1;
+      newStateCart[menuIndex].quantity = num;
+      const cat = newStateCart[menuIndex].category;
+      const nm = newStateCart[menuIndex].name;
+      const prc = newStateCart[menuIndex].price;
+      let count = newStateCart[menuIndex].quantity;
+      if(count === 1){
+        newStateCart.push({category: cat, name: nm, price: prc,quantity: count});
+      }
+      for(let i = 0; i < newStateDes.length; i++){
+        if(newStateDes[i].name === newStateCart[menuIndex].name){
+          newStateDes[i].quantity++;
+        }
+      }
+    }
+    this.setState(
+      {
+        appetizer: newStateApp,
+        entree: newStateEnt,
+        dessert: newStateDes,
+        cart: newStateCart,
+      }
+    )
+  }
+  appClickHandler = (menuIndex) =>{
+    const newStateApp = [...this.state.appetizer];
+    const num = this.state.appetizer[menuIndex].quantity+1;
+    newStateApp[menuIndex].quantity = num;
+    const newStateCart = [...this.state.cart];
+    const cat = newStateApp[menuIndex].category;
+    const nm = newStateApp[menuIndex].name;
+    const prc = newStateApp[menuIndex].price;
+    let count = newStateApp[menuIndex].quantity;
+    if(count === 1){
       newStateCart.push({category: cat, name: nm, price: prc,quantity: count});
     }
     else{
       for(let i = 0; i < newStateCart.length; i++){
-        if(newStateCart[i].name == newStateMenu[menuIndex].name){
+        if(newStateCart[i].name === newStateApp[menuIndex].name){
           newStateCart[i].quantity++;
         }
       }
     }
     this.setState(
       {
-        menuItems: newStateMenu,
-        cart: newStateCart
+        appetizer: newStateApp,
+        cart: newStateCart,
+      }
+    )
+  }
+  entreeClickHandler = (menuIndex) =>{
+    const newStateEntree = [...this.state.entree];
+    const num = this.state.entree[menuIndex].quantity+1;
+    newStateEntree[menuIndex].quantity = num;
+    const newStateCart = [...this.state.cart];
+    const cat = newStateEntree[menuIndex].category;
+    const nm = newStateEntree[menuIndex].name;
+    const prc = newStateEntree[menuIndex].price;
+    let count = newStateEntree[menuIndex].quantity;
+    if(count === 1){
+      newStateCart.push({category: cat, name: nm, price: prc,quantity: count});
+    }
+    else{
+      for(let i = 0; i < newStateCart.length; i++){
+        if(newStateCart[i].name === newStateEntree[menuIndex].name){
+          newStateCart[i].quantity++;
+        }
+      }
+    }
+    this.setState(
+      {
+        entree: newStateEntree,
+        cart: newStateCart,
+      }
+    )
+  }
+  dessertClickHandler = (menuIndex) =>{
+    const newStateDes = [...this.state.dessert];
+    const num = this.state.dessert[menuIndex].quantity+1;
+    newStateDes[menuIndex].quantity = num;
+    const newStateCart = [...this.state.cart];
+    const cat = newStateDes[menuIndex].category;
+    const nm = newStateDes[menuIndex].name;
+    const prc = newStateDes[menuIndex].price;
+    let count = newStateDes[menuIndex].quantity;
+    if(count === 1){
+      newStateCart.push({category: cat, name: nm, price: prc,quantity: count});
+    }
+    else{
+      for(let i = 0; i < newStateCart.length; i++){
+        if(newStateCart[i].name === newStateDes[menuIndex].name){
+          newStateCart[i].quantity++;
+        }
+      }
+    }
+    this.setState(
+      {
+        dessert: newStateDes,
+        cart: newStateCart,
       }
     )
   }
@@ -65,13 +179,13 @@ class Menu extends Component {
     )
   }
   deleteAllOfOne = (menuIndex) =>{
-    if(this.state.cart.length == 0){
+    if(this.state.cart.length === 0){
       return;
     }
     const newCart = [...this.state.cart];
     const newMenu = [...this.props.menuItem.menuItems];
     for(let i = 0; i < newMenu.length; i++){
-      if(newMenu[i].name == newCart[menuIndex].name){
+      if(newMenu[i].name === newCart[menuIndex].name){
         newMenu[i].quantity = 0;
       }
     }
@@ -87,14 +201,14 @@ class Menu extends Component {
     const newCart = [...this.state.cart];
     const newMenu = [...this.props.menuItem.menuItems];
     for(let i = 0; i < newMenu.length; i++){
-      if(newMenu[i].name == newCart[menuIndex].name && newMenu[i].quantity != 0){
+      if(newMenu[i].name === newCart[menuIndex].name && newMenu[i].quantity !== 0){
         newMenu[i].quantity--;
       }
     }
-    if(newCart[menuIndex].quantity == 1){//splice if 1
+    if(newCart[menuIndex].quantity === 1){//splice if 1
       newCart.splice(menuIndex,1);
     }
-    else if(newCart[menuIndex].quantity == 0){//do nothing for 0
+    else if(newCart[menuIndex].quantity === 0){//do nothing for 0
 
     }
     else{
@@ -105,30 +219,105 @@ class Menu extends Component {
         menuItems: newMenu
     })
   }
-  deleteSingleMenu = (menuIndex) =>{
-    if(this.state.cart.length == 0){
+  deleteSingleApp = (menuIndex) =>{
+    if(this.state.cart.length === 0){
       return;
     }
     const newCart = [...this.state.cart];
-    const newMenu = [...this.props.menuItem.menuItems];
+    const newApp = [...this.state.appetizer];
     for(let i = 0; i < newCart.length; i++){
-      if(newCart[i].name == newMenu[menuIndex].name && newMenu[menuIndex].quantity != 1){
+      if(newCart[i].name === newApp[menuIndex].name && newApp[menuIndex].quantity !== 1){
         newCart[i].quantity--;
       }
-      if(newCart[i].name == newMenu[menuIndex].name && newMenu[menuIndex].quantity == 1){
+      if(newCart[i].name === newApp[menuIndex].name && newApp[menuIndex].quantity === 1){
         newCart.splice(i,1);
       }
     }
-    if(newMenu[menuIndex].quantity == 0){//do nothing for 0
+    if(newApp[menuIndex].quantity === 0){//do nothing for 0
 
     }
     else{
-      newMenu[menuIndex].quantity--;
+      newApp[menuIndex].quantity--;
     }
     this.setState({
         cart: newCart,
-        menuItems: newMenu
+        appetizer: newApp
     })
+  }
+  deleteSingleEntree = (menuIndex) =>{
+    if(this.state.cart.length === 0){
+      return;
+    }
+    const newCart = [...this.state.cart];
+    const newEntree = [...this.state.entree];
+    for(let i = 0; i < newCart.length; i++){
+      if(newCart[i].name === newEntree[menuIndex].name && newEntree[menuIndex].quantity !== 1){
+        newCart[i].quantity--;
+      }
+      if(newCart[i].name === newEntree[menuIndex].name && newEntree[menuIndex].quantity === 1){
+        newCart.splice(i,1);
+      }
+    }
+    if(newEntree[menuIndex].quantity === 0){//do nothing for 0
+
+    }
+    else{
+      newEntree[menuIndex].quantity--;
+    }
+    this.setState({
+        cart: newCart,
+        entree: newEntree
+    })
+  }
+  deleteSingleDessert = (menuIndex) =>{
+    if(this.state.cart.length === 0){
+      return;
+    }
+    const newCart = [...this.state.cart];
+    const newDes = [...this.state.dessert];
+    for(let i = 0; i < newCart.length; i++){
+      if(newCart[i].name === newDes[menuIndex].name && newDes[menuIndex].quantity !== 1){
+        newCart[i].quantity--;
+      }
+      if(newCart[i].name === newDes[menuIndex].name && newDes[menuIndex].quantity === 1){
+        newCart.splice(i,1);
+      }
+    }
+    if(newDes[menuIndex].quantity === 0){//do nothing for 0
+
+    }
+    else{
+      newDes[menuIndex].quantity--;
+    }
+    this.setState({
+        cart: newCart,
+        dessert: newDes
+    })
+  }
+  sort = () => {
+    if(this.state.appetizer.length + this.state.entree.length + this.state.dessert.length === this.props.menuItem.menuItems.length){
+    }
+    else{
+    const menu = [...this.props.menuItem.menuItems];
+    const app = [];
+    const ent = [];
+    const des = [];
+    for(let i = 0; i < menu.length; i++){
+      if(menu[i].category === "Appetizer"){
+        app[app.length] = (menu[i]);
+      }
+      if(menu[i].category === "Entree"){
+        ent[ent.length] = (menu[i]);
+      }
+      if(menu[i].category === "Dessert"){
+        des[des.length] = (menu[i]);
+      }
+    }
+    this.setState({
+      dessert: des,
+      entree: ent,
+      appetizer: app,
+    })}
   }
   render() {
     const style = {
@@ -138,31 +327,61 @@ class Menu extends Component {
       padding: '8px',
       cursor: 'pointer'
     }
-    // const style ={
-    //   backgroundColor: 'aqua',
-    //   font: 'inherit',
-    //   border: '1px black',
-    //   padding: '5px',
-    //   curson: 'pointer'
-    // }
+
     let menuItems = null;
     let subtotal = 0;
     let title = "";
     let otherTitle = "";
-
+    let appetizers = [];
+    let entrees = [];
+    let desserts = [];
+    this.sort();
     for(let i = 0; i < this.state.cart.length;i++){
-      subtotal+=this.state.cart[i].price;
+      subtotal+=this.state.cart[i].price * this.state.cart[i].quantity;
     }
     if(this.state.showMenu){
       title = "Menu";
       otherTitle = "Cart";
-      menuItems = (
+      appetizers = (
         <div>
-          {this.props.menuItem.menuItems.map((menuItems,index) =>{
-              return(<MenuItem click = {() => this.menuClickHandler(index)} deleteSingle = {()=>this.deleteSingleMenu(index)} name = {menuItems.name} price = {menuItems.price} quantity = {menuItems.quantity} boolIsCart = {false}/>)
+          {this.state.appetizer.map((appetizer,index) =>{
+              return(<MenuItem click = {() => this.appClickHandler(index)} deleteSingle = {()=>this.deleteSingleApp(index)} name = {appetizer.name} price = {appetizer.price} quantity = {appetizer.quantity} category = {appetizer.category} boolIsCart = {false}/>)
           })}
         </div> 
       );
+      entrees = (
+        <div>
+          {this.state.entree.map((entree,index) =>{
+              return(<MenuItem click = {() => this.entreeClickHandler(index)} deleteSingle = {()=>this.deleteSingleEntree(index)} name = {entree.name} price = {entree.price} quantity = {entree.quantity} category = {entree.category} boolIsCart = {false}/>)
+          })}
+        </div> 
+      );
+      desserts = (
+        <div>
+          {this.state.dessert.map((dessert,index) =>{
+              return(<MenuItem click = {() => this.dessertClickHandler(index)} deleteSingle = {()=>this.deleteSingleDessert(index)} name = {dessert.name} price = {dessert.price} quantity = {dessert.quantity} category = {dessert.category} boolIsCart = {false}/>)
+          })}
+        </div> 
+      );
+      return (
+        <div className="App">
+          <h1>{title}</h1>
+          <p>Subtotal: ${subtotal}</p>
+          <button 
+            style={style}
+            onClick={this.showItemHandler.bind(this, "Menu")}>See {otherTitle}</button>
+          <button 
+            style={style}
+            onClick={this.clearCart.bind(this, "Menu")}>Clear Cart</button>
+          <h2>Appetizers</h2>
+          <ul>{appetizers}</ul>
+          <h2>Entrees</h2>
+          <ul>{entrees}</ul>
+          <h2>Desserts</h2>
+          <ul>{desserts}</ul>
+        </div>
+
+    );
     }
     else{
       title = "Cart"
@@ -170,7 +389,7 @@ class Menu extends Component {
       menuItems = (
         <div>
           {this.state.cart.map((cart,index) =>{
-              return(<MenuItem click = {() => this.menuClickHandler(index)} deleteSingle = {()=>this.deleteSingleCart(index)} deleteAll = {() => this.deleteAllOfOne(index)} name = {cart.name} price = {cart.price} quantity = {cart.quantity} boolIsCart = {true}/>);
+              return(<MenuItem click = {() => this.addCart(index)} deleteSingle = {()=>this.deleteSingleCart(index)} deleteAll = {() => this.deleteAllOfOne(index)} name = {cart.name} price = {cart.price} quantity = {cart.quantity} boolIsCart = {true}/>);
           })}
         </div> 
       );
@@ -189,8 +408,6 @@ class Menu extends Component {
         </div>
 
     );
-
-    // return (React.createElement('div',{className: 'App'},React.createElement('h1',null,"yo whats good")));
   }
 }
 
@@ -200,7 +417,6 @@ Menu.propTypes = {
 }
 const mapStateToProps = (state) => ({
   menuItem: state.menuItem
-
 })
 
 

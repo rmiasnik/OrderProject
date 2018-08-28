@@ -1,6 +1,7 @@
 import React from 'react';
 import '../style/MenuItem.css';
 const menuItem = (props) => {
+	//handles the case of cart(EXTRA X BUTTON)
 	if(props.boolIsCart){
 		if(props.quantity === 0 || props.quantity === null){
 			return(
@@ -23,6 +24,7 @@ const menuItem = (props) => {
 		</div>
 		)
 	}
+	//handles the case of the actual menu
 	else{
 		if(props.quantity === 0 || props.quantity === null){
 			return(
