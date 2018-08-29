@@ -3,6 +3,8 @@ import MenuItem from './MenuItem'
 import { connect } from 'react-redux';
 import { getMenu } from '../actions/menuItemActions';
 import PropTypes from 'prop-types';
+import { Button, WhiteSpace, WingBlank, NavBar, Accordion, List } from 'antd-mobile';
+
 class Menu extends Component {
   componentDidMount() {
     this.props.getMenu();
@@ -365,7 +367,7 @@ class Menu extends Component {
       );
       return (
         <div className="App">
-          <h1>{title}</h1>
+          {/* <Button type="primary">{title}</Button>
           <p>Subtotal: ${subtotal}</p>
           <button 
             style={style}
@@ -378,7 +380,33 @@ class Menu extends Component {
           <h2>Entrees</h2>
           <ul>{entrees}</ul>
           <h2>Desserts</h2>
-          <ul>{desserts}</ul>
+          <ul>{desserts}</ul> */}
+          <NavBar mode = "dark">
+            Red Rock Coffee - {title}
+          </NavBar>
+          <p>Subtotal: ${subtotal}</p>
+          <WhiteSpace />
+          <Button type = "primary" 
+            inline style={{ marginRight: '4px' }}
+            // style={style}
+            onClick={this.showItemHandler.bind(this, "Menu")}>See {otherTitle}</Button>
+          <Button type = "ghost"
+            inline style={{ marginRight: '4px' }} 
+            // style={style}
+            onClick={this.clearCart.bind(this, "Menu")}>Clear Cart</Button>
+          <WhiteSpace />
+          <Accordion defaultActiveKey = "0" className = "menu" onChange = {this.onChange}>
+      
+          <Accordion.Panel header = "Appetizers">
+            <List.Item>{appetizers}</List.Item>
+          </Accordion.Panel>
+          <Accordion.Panel header = "Entrees">
+            <List.Item>{entrees}</List.Item>
+          </Accordion.Panel>
+          <Accordion.Panel header = "Desserts">
+            <List.Item>{desserts}</List.Item>
+          </Accordion.Panel>
+          </Accordion>
         </div>
 
     );

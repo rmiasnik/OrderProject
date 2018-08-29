@@ -13,16 +13,22 @@
   "author": "Ron Miasnik",
   "license": "MIT",
   "dependencies": {
+    "ajv": "^6.5.3",
+    "antd-mobile": "^2.2.3",
     "body-parser": "^1.18.3",
     "concurrently": "^3.6.1",
     "express": "^4.16.3",
+    "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
     "mongoose": "^5.2.8",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+    "react-scripts": "^1.1.5",
     "reactstrap": "^6.3.1"
   },
   "devDependencies": {
-    "nodemon": "^1.18.3"
+    "babel-plugin-import": "^1.8.0",
+    "nodemon": "^1.18.3",
+    "react-app-rewired": "^1.5.2"
   }
 }
