@@ -20,15 +20,15 @@
     "express": "^4.16.3",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
-    "mongoose": "^5.2.8",
+    "mongoose": "^5.2.10",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-scripts": "^1.1.5",
-    "reactstrap": "^6.3.1"
+    "reactstrap": "^6.4.0"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.8.0",
-    "nodemon": "^1.18.3",
+    "nodemon": "^1.18.4",
     "react-app-rewired": "^1.5.2"
   }
 }

@@ -383,6 +383,8 @@ class Menu extends Component {
           <ul>{desserts}</ul> */}
           <NavBar mode = "dark">
             Red Rock Coffee - {title}
+
+
           </NavBar>
           <p>Subtotal: ${subtotal}</p>
           <WhiteSpace />
@@ -397,14 +399,17 @@ class Menu extends Component {
           <WhiteSpace />
           <Accordion defaultActiveKey = "0" className = "menu" onChange = {this.onChange}>
       
-          <Accordion.Panel header = "Appetizers">
-            <List.Item>{appetizers}</List.Item>
+          <Accordion.Panel
+            header = "Hot Drinks"
+            // thumb = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALoSURBVGhD7ZpLqE1RGICvRyiEgYE8ihQGFDKS5C1mSlFMlFLII+5EESmRkSiKpAxQoigG8sxE8hiQPCMZkPf7Eb5vdXede9omZ++19z65X33d/nVOa+3/7LXWXnut29LBf0h/fIW7Q9TETME/eCFETcxiNJHDIWpijqCJLAtRkzIBv+Nb7GVBDd3a/laekfgcvRvrLKhhMH7APSGqMGPxJZrEceyEtczB5LPK4p2wK3mhJzCtC21GP98aogrSA++gF3kQu2A94/Aj/kaTriRL0SSuYFoSk/A9+p3tFlSVa+hFTgtRe4bjO/Tz/ZiWaCWwW/3Cn5h2kUfRJPZi/eCvFIPQC30WovZ0RxN0bNQ/TyqHs9M5dEaqZwSa5K0QNTG98RKuCVEH+dAHhxVktBnN/v8a7edFuAuj4N2wAVey1yP6AG3nNEYhSeRpiOIxF23HlcH4Nseg03cuFJ1Ivd9wPWam6ERcyiTd7Sb+QMtnYyaKTqR+jKxGyzO/iJWdyBK0/ECIMlB2Iq1oeeZpuexEdqLlJpSJshNxnWa5n2eizERcsvgK8BUzvwKUlUhPPI+W+UKWmaITuYEb8XFb/ATdDM9MkogbbjFJEqn1Mg7BXOiMPl1dNMYk2fB+hFtwIuaOldvI0BDFwQ0729gQokh4LGAjK0MUh9toG9NDFIkZaCMPMcZO+iy0fieUrhbEwnHiatTGtlmQI04m99G6V1kQm9Hou4H7tissyIF+eBFNwr+F7UAuwOT9wHGTZWp0urWrWtc9HIi5468//x8eQhtX79AZdEG3CNO+X6sb3TvwLiZ1fMblmPb9eWjXawhv7xdMGirbTMuTN2glV/FYSb5Ar8E72DBJ9zmFZRwBeAxhl/MaJlvQKD7Bk0MZf50BWBQz0YWibZ+0ICtT0dNXK/yEHtB4Xp42KLO6ED399T8kbE9dMDY80OvxFp/FpPIi9MfbhFHO4kfhWnQDYF8kHdQ+p/piB01MS8tfIzFsVRXqxbsAAAAASUVORK5CYII=">
+            >
+            <List>{appetizers}</List>
           </Accordion.Panel>
-          <Accordion.Panel header = "Entrees">
-            <List.Item>{entrees}</List.Item>
+          <Accordion.Panel header = "Cold Drinks">
+            <List>{entrees}</List>
           </Accordion.Panel>
           <Accordion.Panel header = "Desserts">
-            <List.Item>{desserts}</List.Item>
+            <List>{desserts}</List>
           </Accordion.Panel>
           </Accordion>
         </div>
