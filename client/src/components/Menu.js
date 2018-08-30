@@ -27,7 +27,7 @@ class Menu extends Component {
         }
       )
   }
-  addCart = (menuIndex) =>{
+  addFromCart = (menuIndex) =>{
     const newStateApp = [...this.state.appetizer];
     const newStateEnt = [...this.state.entree];
     const newStateDes = [...this.state.dessert];
@@ -64,7 +64,7 @@ class Menu extends Component {
         }
       }
     }
-    else{
+    else if(newStateCart[menuIndex].category === "Dessert"){
       const num = this.state.cart[menuIndex].quantity+1;
       newStateCart[menuIndex].quantity = num;
       const cat = newStateCart[menuIndex].category;
@@ -321,15 +321,8 @@ class Menu extends Component {
       appetizer: app,
     })}
   }
-  render() {
-    const style = {
-      backgroundColor: 'teal',
-      font: 'inherit',
-      border: '1px black',
-      padding: '8px',
-      cursor: 'pointer'
-    }
 
+  render() {
     let menuItems = null;
     let subtotal = 0;
     let title = "";
@@ -337,11 +330,13 @@ class Menu extends Component {
     let appetizers = [];
     let entrees = [];
     let desserts = [];
+    var different;
     this.sort();
     for(let i = 0; i < this.state.cart.length;i++){
       subtotal+=this.state.cart[i].price * this.state.cart[i].quantity;
     }
     if(this.state.showMenu){
+      //populates the arrays
       title = "Menu";
       otherTitle = "Cart";
       appetizers = (
@@ -365,56 +360,22 @@ class Menu extends Component {
           })}
         </div> 
       );
-      return (
-        <div className="App">
-          {/* <Button type="primary">{title}</Button>
-          <p>Subtotal: ${subtotal}</p>
-          <button 
-            style={style}
-            onClick={this.showItemHandler.bind(this, "Menu")}>See {otherTitle}</button>
-          <button 
-            style={style}
-            onClick={this.clearCart.bind(this, "Menu")}>Clear Cart</button>
-          <h2>Appetizers</h2>
-          <ul>{appetizers}</ul>
-          <h2>Entrees</h2>
-          <ul>{entrees}</ul>
-          <h2>Desserts</h2>
-          <ul>{desserts}</ul> */}
-          <NavBar mode = "dark">
-            Red Rock Coffee - {title}
+      //sets text to the different parts of the menus
+      different = <Accordion defaultActiveKey = "0" className = "menu" onChange = {this.onChange}>
 
-
-          </NavBar>
-          <p>Subtotal: ${subtotal}</p>
-          <WhiteSpace />
-          <Button type = "primary" 
-            inline style={{ marginRight: '4px' }}
-            // style={style}
-            onClick={this.showItemHandler.bind(this, "Menu")}>See {otherTitle}</Button>
-          <Button type = "ghost"
-            inline style={{ marginRight: '4px' }} 
-            // style={style}
-            onClick={this.clearCart.bind(this, "Menu")}>Clear Cart</Button>
-          <WhiteSpace />
-          <Accordion defaultActiveKey = "0" className = "menu" onChange = {this.onChange}>
-      
-          <Accordion.Panel
-            header = "Hot Drinks"
-            // thumb = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALoSURBVGhD7ZpLqE1RGICvRyiEgYE8ihQGFDKS5C1mSlFMlFLII+5EESmRkSiKpAxQoigG8sxE8hiQPCMZkPf7Eb5vdXede9omZ++19z65X33d/nVOa+3/7LXWXnut29LBf0h/fIW7Q9TETME/eCFETcxiNJHDIWpijqCJLAtRkzIBv+Nb7GVBDd3a/laekfgcvRvrLKhhMH7APSGqMGPxJZrEceyEtczB5LPK4p2wK3mhJzCtC21GP98aogrSA++gF3kQu2A94/Aj/kaTriRL0SSuYFoSk/A9+p3tFlSVa+hFTgtRe4bjO/Tz/ZiWaCWwW/3Cn5h2kUfRJPZi/eCvFIPQC30WovZ0RxN0bNQ/TyqHs9M5dEaqZwSa5K0QNTG98RKuCVEH+dAHhxVktBnN/v8a7edFuAuj4N2wAVey1yP6AG3nNEYhSeRpiOIxF23HlcH4Nseg03cuFJ1Ivd9wPWam6ERcyiTd7Sb+QMtnYyaKTqR+jKxGyzO/iJWdyBK0/ECIMlB2Iq1oeeZpuexEdqLlJpSJshNxnWa5n2eizERcsvgK8BUzvwKUlUhPPI+W+UKWmaITuYEb8XFb/ATdDM9MkogbbjFJEqn1Mg7BXOiMPl1dNMYk2fB+hFtwIuaOldvI0BDFwQ0729gQokh4LGAjK0MUh9toG9NDFIkZaCMPMcZO+iy0fieUrhbEwnHiatTGtlmQI04m99G6V1kQm9Hou4H7tissyIF+eBFNwr+F7UAuwOT9wHGTZWp0urWrWtc9HIi5468//x8eQhtX79AZdEG3CNO+X6sb3TvwLiZ1fMblmPb9eWjXawhv7xdMGirbTMuTN2glV/FYSb5Ar8E72DBJ9zmFZRwBeAxhl/MaJlvQKD7Bk0MZf50BWBQz0YWibZ+0ICtT0dNXK/yEHtB4Xp42KLO6ED399T8kbE9dMDY80OvxFp/FpPIi9MfbhFHO4kfhWnQDYF8kHdQ+p/piB01MS8tfIzFsVRXqxbsAAAAASUVORK5CYII=">
-            >
-            <List>{appetizers}</List>
-          </Accordion.Panel>
-          <Accordion.Panel header = "Cold Drinks">
-            <List>{entrees}</List>
-          </Accordion.Panel>
-          <Accordion.Panel header = "Desserts">
-            <List>{desserts}</List>
-          </Accordion.Panel>
-          </Accordion>
-        </div>
-
-    );
+      <Accordion.Panel
+        header = "Hot Drinks"
+        // thumb = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALoSURBVGhD7ZpLqE1RGICvRyiEgYE8ihQGFDKS5C1mSlFMlFLII+5EESmRkSiKpAxQoigG8sxE8hiQPCMZkPf7Eb5vdXede9omZ++19z65X33d/nVOa+3/7LXWXnut29LBf0h/fIW7Q9TETME/eCFETcxiNJHDIWpijqCJLAtRkzIBv+Nb7GVBDd3a/laekfgcvRvrLKhhMH7APSGqMGPxJZrEceyEtczB5LPK4p2wK3mhJzCtC21GP98aogrSA++gF3kQu2A94/Aj/kaTriRL0SSuYFoSk/A9+p3tFlSVa+hFTgtRe4bjO/Tz/ZiWaCWwW/3Cn5h2kUfRJPZi/eCvFIPQC30WovZ0RxN0bNQ/TyqHs9M5dEaqZwSa5K0QNTG98RKuCVEH+dAHhxVktBnN/v8a7edFuAuj4N2wAVey1yP6AG3nNEYhSeRpiOIxF23HlcH4Nseg03cuFJ1Ivd9wPWam6ERcyiTd7Sb+QMtnYyaKTqR+jKxGyzO/iJWdyBK0/ECIMlB2Iq1oeeZpuexEdqLlJpSJshNxnWa5n2eizERcsvgK8BUzvwKUlUhPPI+W+UKWmaITuYEb8XFb/ATdDM9MkogbbjFJEqn1Mg7BXOiMPl1dNMYk2fB+hFtwIuaOldvI0BDFwQ0729gQokh4LGAjK0MUh9toG9NDFIkZaCMPMcZO+iy0fieUrhbEwnHiatTGtlmQI04m99G6V1kQm9Hou4H7tissyIF+eBFNwr+F7UAuwOT9wHGTZWp0urWrWtc9HIi5468//x8eQhtX79AZdEG3CNO+X6sb3TvwLiZ1fMblmPb9eWjXawhv7xdMGirbTMuTN2glV/FYSb5Ar8E72DBJ9zmFZRwBeAxhl/MaJlvQKD7Bk0MZf50BWBQz0YWibZ+0ICtT0dNXK/yEHtB4Xp42KLO6ED399T8kbE9dMDY80OvxFp/FpPIi9MfbhFHO4kfhWnQDYF8kHdQ+p/piB01MS8tfIzFsVRXqxbsAAAAASUVORK5CYII=">
+        >
+        <List>{appetizers}</List>
+      </Accordion.Panel>
+      <Accordion.Panel header = "Cold Drinks">
+        <List>{entrees}</List>
+      </Accordion.Panel>
+      <Accordion.Panel header = "Desserts">
+        <List>{desserts}</List>
+      </Accordion.Panel>
+      </Accordion>;
     }
     else{
       title = "Cart"
@@ -422,24 +383,30 @@ class Menu extends Component {
       menuItems = (
         <div>
           {this.state.cart.map((cart,index) =>{
-              return(<MenuItem click = {() => this.addCart(index)} deleteSingle = {()=>this.deleteSingleCart(index)} deleteAll = {() => this.deleteAllOfOne(index)} name = {cart.name} price = {cart.price} quantity = {cart.quantity} boolIsCart = {true}/>);
+              return(<MenuItem click = {() => this.addFromCart(index)} deleteSingle = {()=>this.deleteSingleCart(index)} deleteAll = {() => this.deleteAllOfOne(index)} name = {cart.name} price = {cart.price} quantity = {cart.quantity} boolIsCart = {true}/>);
           })}
         </div> 
       );
+      different = <List>{menuItems}</List>;
     }
     return (
-        <div className="App">
-          <h1>{title}</h1>
-          <p>Subtotal: ${subtotal}</p>
-          <button 
-            style={style}
-            onClick={this.showItemHandler.bind(this, "Menu")}>See {otherTitle}</button>
-          <button 
-            style={style}
-            onClick={this.clearCart.bind(this, "Menu")}>Clear Cart</button>
-          <ul>{menuItems}</ul>
-        </div>
+      <div className="App">
+        <NavBar mode = "dark">
+          Red Rock Coffee - {title}
+        </NavBar>
 
+        <p>Subtotal: ${subtotal}</p>
+        <WhiteSpace />
+        <Button type = "primary" 
+          inline style={{ marginRight: '4px' }}
+          onClick={this.showItemHandler.bind(this, "Menu")}>See {otherTitle}</Button>
+        <Button type = "ghost"
+          inline style={{ marginRight: '4px' }} 
+          onClick={this.clearCart.bind(this, "Menu")}>Clear Cart</Button>
+        <WhiteSpace />
+
+        {different}
+      </div>
     );
   }
 }
@@ -451,6 +418,5 @@ Menu.propTypes = {
 const mapStateToProps = (state) => ({
   menuItem: state.menuItem
 })
-
 
 export default connect(mapStateToProps, { getMenu })(Menu);
