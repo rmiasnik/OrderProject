@@ -1,0 +1,9 @@
+.checkoutButton {
+    background-color: green;
+    border: 1px solid black;
+    position: fixed;
+    bottom: 0px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 100%;
+}

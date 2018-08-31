@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MenuItem from './MenuItem'
+import '../style/Menu.css';
 import { connect } from 'react-redux';
 import { getMenu } from '../actions/menuItemActions';
 import PropTypes from 'prop-types';
@@ -180,6 +181,9 @@ class Menu extends Component {
       }
     )
   }
+  checkOutClicked = (event) => {
+    console.log("checkout button clicked");
+  }
   deleteAllOfOne = (menuIndex) =>{
     if(this.state.cart.length === 0){
       return;
@@ -330,6 +334,8 @@ class Menu extends Component {
     let appetizers = [];
     let entrees = [];
     let desserts = [];
+    let titleIconLink = "";
+    // let otherTitleIconLink = "";
     var different;
     this.sort();
     for(let i = 0; i < this.state.cart.length;i++){
@@ -339,6 +345,9 @@ class Menu extends Component {
       //populates the arrays
       title = "Menu";
       otherTitle = "Cart";
+      titleIconLink = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJHSURBVGhD7dpNiE1hHMfxKzWNQpnCAgsalCQvG7uhpBRZTNhYULLxkrKQpZRIMqXYSSJvk0JKsbBgxcZCCkWUbLDwkih8f4tTT6f/uPc85/k/t1PnW5/lPP/zzNxzzr3nTqetra3nZuI8nuBp4CbmoTHdwt8JPEBjegFrE4WlaER7YW2gcBaNaRm2YQsuINzIN1zvk2s4iEmo3Fz8RriZftNmohqHtWC/3EZUa2Et2C86j6PSa/I5rEVze40BRLcP1sK5jaJW0/EV1uK5PEbUFavcOVgDcviD1UiS7urWkBx0D0naQ1iDPP3EAiRtK6xhnk4hebr0fYA10MMnzIBLR2AN9XAAbs1BjvdftW9+vXQD1vCUat/8emkNrOGpJLv5dUtDXsI6iLqS3vy6tQS/YB1IXSeRJf01HsE6iDreQm/Rs7yk1G6UD+I4dL2PNRVZm4XPCDehy+QgGtVRhJuQ9WhcuiyGm7iMRlY+yZ/hvpO7iP583q1jCDeSw3YkbzY+whro5QRcWo5XsIampiebq+DWZKzDLui+4mEH5qOtl6ZAH3sPQb+5IdRNa+yE1tQDdM1wbSXeIXwtf8FGxLYZWiNc8w1WwKVpmOgz+3csRNUW4wesNd/D5X2YTkJrYCHmiccYrLUKuqAk7zSsYYV7qJp+xlqr4PI46DCsYYWLqNolWGsVdPInbxH+9wRlA6q2CdZaolnDcGk/9Lm6PPQMYtOXrOX1NGMPXNNTlKvQPxPoqzBd9+umL2DvQGtewQja2tqS1en8A7p+OYUFMFvFAAAAAElFTkSuQmCC";
+      // otherTitleIconLink = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABxSURBVGhD7dYxDYBAEETRFYECKkRQIgARBA1IQAEi0IInmKPeGu4m/yW/2mq6DQDAX3aDZhW3QYdKD63FkNp6h6wGjQoAABSnQYtKf5fW4vutLa8hk0GDAgAAxWXQptLfpbX4fmvLa0hvUKcAAF+LeABZddsp++ZlVAAAAABJRU5ErkJggg==";
+
       appetizers = (
         <div>
           {this.state.appetizer.map((appetizer,index) =>{
@@ -380,6 +389,9 @@ class Menu extends Component {
     else{
       title = "Cart"
       otherTitle = "Menu";
+      // otherTitleIconLink = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJHSURBVGhD7dpNiE1hHMfxKzWNQpnCAgsalCQvG7uhpBRZTNhYULLxkrKQpZRIMqXYSSJvk0JKsbBgxcZCCkWUbLDwkih8f4tTT6f/uPc85/k/t1PnW5/lPP/zzNxzzr3nTqetra3nZuI8nuBp4CbmoTHdwt8JPEBjegFrE4WlaER7YW2gcBaNaRm2YQsuINzIN1zvk2s4iEmo3Fz8RriZftNmohqHtWC/3EZUa2Et2C86j6PSa/I5rEVze40BRLcP1sK5jaJW0/EV1uK5PEbUFavcOVgDcviD1UiS7urWkBx0D0naQ1iDPP3EAiRtK6xhnk4hebr0fYA10MMnzIBLR2AN9XAAbs1BjvdftW9+vXQD1vCUat/8emkNrOGpJLv5dUtDXsI6iLqS3vy6tQS/YB1IXSeRJf01HsE6iDreQm/Rs7yk1G6UD+I4dL2PNRVZm4XPCDehy+QgGtVRhJuQ9WhcuiyGm7iMRlY+yZ/hvpO7iP583q1jCDeSw3YkbzY+whro5QRcWo5XsIampiebq+DWZKzDLui+4mEH5qOtl6ZAH3sPQb+5IdRNa+yE1tQDdM1wbSXeIXwtf8FGxLYZWiNc8w1WwKVpmOgz+3csRNUW4wesNd/D5X2YTkJrYCHmiccYrLUKuqAk7zSsYYV7qJp+xlqr4PI46DCsYYWLqNolWGsVdPInbxH+9wRlA6q2CdZaolnDcGk/9Lm6PPQMYtOXrOX1NGMPXNNTlKvQPxPoqzBd9+umL2DvQGtewQja2tqS1en8A7p+OYUFMFvFAAAAAElFTkSuQmCC";
+      titleIconLink = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABxSURBVGhD7dYxDYBAEETRFYECKkRQIgARBA1IQAEi0IInmKPeGu4m/yW/2mq6DQDAX3aDZhW3QYdKD63FkNp6h6wGjQoAABSnQYtKf5fW4vutLa8hk0GDAgAAxWXQptLfpbX4fmvLa0hvUKcAAF+LeABZddsp++ZlVAAAAABJRU5ErkJggg==";
+
       menuItems = (
         <div>
           {this.state.cart.map((cart,index) =>{
@@ -387,7 +399,14 @@ class Menu extends Component {
           })}
         </div> 
       );
-      different = <List>{menuItems}</List>;
+      // What the content of the cart looks like
+      different = (
+        <span>
+          <List>{menuItems}</List>
+          {/* Don't totally understand how onClick works, why did I put "Menu" in there? Just copied from below - Ron */}
+          <Button className = "checkoutButton" type = "primary" onClick = {this.checkOutClicked.bind(this, "Menu")} > Checkout </Button>
+        </span>
+      );
     }
     return (
       <div className="App">
@@ -397,9 +416,14 @@ class Menu extends Component {
 
         <p>Subtotal: ${subtotal}</p>
         <WhiteSpace />
-        <Button type = "primary" 
-          inline style={{ marginRight: '4px' }}
-          onClick={this.showItemHandler.bind(this, "Menu")}>See {otherTitle}</Button>
+        <Button 
+          // className = "cart"
+          type = "primary" 
+          icon = {<img src ={titleIconLink} />}
+          inline style={{ marginRight: '4px', float: 'right', paddingRight: '6px'}}
+          onClick={this.showItemHandler.bind(this, "Menu")}>
+          {/* <img src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJHSURBVGhD7dpNiE1hHMfxKzWNQpnCAgsalCQvG7uhpBRZTNhYULLxkrKQpZRIMqXYSSJvk0JKsbBgxcZCCkWUbLDwkih8f4tTT6f/uPc85/k/t1PnW5/lPP/zzNxzzr3nTqetra3nZuI8nuBp4CbmoTHdwt8JPEBjegFrE4WlaER7YW2gcBaNaRm2YQsuINzIN1zvk2s4iEmo3Fz8RriZftNmohqHtWC/3EZUa2Et2C86j6PSa/I5rEVze40BRLcP1sK5jaJW0/EV1uK5PEbUFavcOVgDcviD1UiS7urWkBx0D0naQ1iDPP3EAiRtK6xhnk4hebr0fYA10MMnzIBLR2AN9XAAbs1BjvdftW9+vXQD1vCUat/8emkNrOGpJLv5dUtDXsI6iLqS3vy6tQS/YB1IXSeRJf01HsE6iDreQm/Rs7yk1G6UD+I4dL2PNRVZm4XPCDehy+QgGtVRhJuQ9WhcuiyGm7iMRlY+yZ/hvpO7iP583q1jCDeSw3YkbzY+whro5QRcWo5XsIampiebq+DWZKzDLui+4mEH5qOtl6ZAH3sPQb+5IdRNa+yE1tQDdM1wbSXeIXwtf8FGxLYZWiNc8w1WwKVpmOgz+3csRNUW4wesNd/D5X2YTkJrYCHmiccYrLUKuqAk7zSsYYV7qJp+xlqr4PI46DCsYYWLqNolWGsVdPInbxH+9wRlA6q2CdZaolnDcGk/9Lm6PPQMYtOXrOX1NGMPXNNTlKvQPxPoqzBd9+umL2DvQGtewQja2tqS1en8A7p+OYUFMFvFAAAAAElFTkSuQmCC" /> */}
+        </Button>
         <Button type = "ghost"
           inline style={{ marginRight: '4px' }} 
           onClick={this.clearCart.bind(this, "Menu")}>Clear Cart</Button>
