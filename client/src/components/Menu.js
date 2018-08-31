@@ -16,12 +16,21 @@ class Menu extends Component {
     appetizer:[],
     entree:[],
     dessert:[],
-    showMenu: true,
+    showMenu: 0,
   }
   
   
   showItemHandler = (event) =>{
-    const temp = !this.state.showMenu;
+    var temp;
+    if(this.state.showMenu === 0){
+      temp = 1;
+    }
+    else if(this.state.showMenu === 1){
+      temp = 0;
+    }
+    else if(this.state.showMenu === 2){
+      temp = 1;
+    }
     this.setState(
         {
           showMenu: temp
@@ -181,9 +190,16 @@ class Menu extends Component {
       }
     )
   }
+
   checkOutClicked = (event) => {
-    console.log("checkout button clicked");
+    const a = 2;
+    this.setState(
+      {
+        showMenu: a,
+      }
+    )
   }
+
   deleteAllOfOne = (menuIndex) =>{
     if(this.state.cart.length === 0){
       return;
@@ -265,7 +281,6 @@ class Menu extends Component {
       }
     }
     if(newEntree[menuIndex].quantity === 0){//do nothing for 0
-
     }
     else{
       newEntree[menuIndex].quantity--;
@@ -273,6 +288,16 @@ class Menu extends Component {
     this.setState({
         cart: newCart,
         entree: newEntree
+    })
+  }
+  finalizeOrder = (event) =>{
+    var a = "";
+    for(let i = 0; i < this.state.cart.length; i++){
+      a += this.state.cart[i].name + " " + this.state.cart[i].quantity + "\n";
+    }
+    console.log(a);
+    this.setState({
+      showMenu: 3,
     })
   }
   deleteSingleDessert = (menuIndex) =>{
@@ -341,7 +366,7 @@ class Menu extends Component {
     for(let i = 0; i < this.state.cart.length;i++){
       subtotal+=this.state.cart[i].price * this.state.cart[i].quantity;
     }
-    if(this.state.showMenu){
+    if(this.state.showMenu === 0){//HANDLES THE MENU SCREEN
       //populates the arrays
       title = "Menu";
       otherTitle = "Cart";
@@ -386,8 +411,8 @@ class Menu extends Component {
       </Accordion.Panel>
       </Accordion>;
     }
-    else{
-      title = "Cart"
+    else if (this.state.showMenu === 1){ //HANDLES THE CART SCREEN
+      title = "Cart";
       otherTitle = "Menu";
       // otherTitleIconLink = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJHSURBVGhD7dpNiE1hHMfxKzWNQpnCAgsalCQvG7uhpBRZTNhYULLxkrKQpZRIMqXYSSJvk0JKsbBgxcZCCkWUbLDwkih8f4tTT6f/uPc85/k/t1PnW5/lPP/zzNxzzr3nTqetra3nZuI8nuBp4CbmoTHdwt8JPEBjegFrE4WlaER7YW2gcBaNaRm2YQsuINzIN1zvk2s4iEmo3Fz8RriZftNmohqHtWC/3EZUa2Et2C86j6PSa/I5rEVze40BRLcP1sK5jaJW0/EV1uK5PEbUFavcOVgDcviD1UiS7urWkBx0D0naQ1iDPP3EAiRtK6xhnk4hebr0fYA10MMnzIBLR2AN9XAAbs1BjvdftW9+vXQD1vCUat/8emkNrOGpJLv5dUtDXsI6iLqS3vy6tQS/YB1IXSeRJf01HsE6iDreQm/Rs7yk1G6UD+I4dL2PNRVZm4XPCDehy+QgGtVRhJuQ9WhcuiyGm7iMRlY+yZ/hvpO7iP583q1jCDeSw3YkbzY+whro5QRcWo5XsIampiebq+DWZKzDLui+4mEH5qOtl6ZAH3sPQb+5IdRNa+yE1tQDdM1wbSXeIXwtf8FGxLYZWiNc8w1WwKVpmOgz+3csRNUW4wesNd/D5X2YTkJrYCHmiccYrLUKuqAk7zSsYYV7qJp+xlqr4PI46DCsYYWLqNolWGsVdPInbxH+9wRlA6q2CdZaolnDcGk/9Lm6PPQMYtOXrOX1NGMPXNNTlKvQPxPoqzBd9+umL2DvQGtewQja2tqS1en8A7p+OYUFMFvFAAAAAElFTkSuQmCC";
       titleIconLink = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABxSURBVGhD7dYxDYBAEETRFYECKkRQIgARBA1IQAEi0IInmKPeGu4m/yW/2mq6DQDAX3aDZhW3QYdKD63FkNp6h6wGjQoAABSnQYtKf5fW4vutLa8hk0GDAgAAxWXQptLfpbX4fmvLa0hvUKcAAF+LeABZddsp++ZlVAAAAABJRU5ErkJggg==";
@@ -400,13 +425,46 @@ class Menu extends Component {
         </div> 
       );
       // What the content of the cart looks like
+      let a;
+      if(this.state.cart.length === 0){
+        a = <h2>Add something to the cart!</h2>//YOU CAN RESTYLE THIS IF YOU WANT
+      }else{
+        a = <Button className = "checkoutButton" type = "primary" onClick = {this.checkOutClicked.bind(this, "Menu")} > Checkout </Button>;
+
+      }
       different = (
         <span>
           <List>{menuItems}</List>
           {/* Don't totally understand how onClick works, why did I put "Menu" in there? Just copied from below - Ron */}
-          <Button className = "checkoutButton" type = "primary" onClick = {this.checkOutClicked.bind(this, "Menu")} > Checkout </Button>
+          {a}
         </span>
       );
+    }
+    else if (this.state.showMenu === 2){ //HANDLES THE CHECKOUT SCREEN
+      title = "Checkout";
+      otherTitle = "Cart";
+      menuItems = (
+        <div>
+          {this.state.cart.map((cart,index) =>{
+            return(<p>{cart.name} num:{cart.quantity} cost:${cart.quantity *cart.price}</p>)
+          })}
+        </div>
+      );
+      different = (
+        <span>
+          <List>{menuItems}</List>
+          <Button className = "finalizeOrder" type = "primary" onClick = {this.finalizeOrder.bind(this,"Menu")}>Finalize Order</Button>
+        </span>
+      );
+    }
+    else if(this.state.showMenu === 3){
+      return(<h1>THANK YOU FOR YOUR ORDER</h1>);//this will end up being the payment screen i think
+    }
+    var clearCartButton = <div><WhiteSpace/><WhiteSpace/><WhiteSpace/></div>;
+    if(this.state.showMenu !== 2){
+      clearCartButton = <Button type = "ghost"
+      inline style={{ marginRight: '4px' }} 
+      onClick={this.clearCart.bind(this, "Menu")}>Clear Cart</Button>;
     }
     return (
       <div className="App">
@@ -417,17 +475,14 @@ class Menu extends Component {
         <p>Subtotal: ${subtotal}</p>
         <WhiteSpace />
         <Button 
-          // className = "cart"
           type = "primary" 
           icon = {<img src ={titleIconLink} />}
           inline style={{ marginRight: '4px', float: 'right', paddingRight: '6px'}}
           onClick={this.showItemHandler.bind(this, "Menu")}>
           {/* <img src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJHSURBVGhD7dpNiE1hHMfxKzWNQpnCAgsalCQvG7uhpBRZTNhYULLxkrKQpZRIMqXYSSJvk0JKsbBgxcZCCkWUbLDwkih8f4tTT6f/uPc85/k/t1PnW5/lPP/zzNxzzr3nTqetra3nZuI8nuBp4CbmoTHdwt8JPEBjegFrE4WlaER7YW2gcBaNaRm2YQsuINzIN1zvk2s4iEmo3Fz8RriZftNmohqHtWC/3EZUa2Et2C86j6PSa/I5rEVze40BRLcP1sK5jaJW0/EV1uK5PEbUFavcOVgDcviD1UiS7urWkBx0D0naQ1iDPP3EAiRtK6xhnk4hebr0fYA10MMnzIBLR2AN9XAAbs1BjvdftW9+vXQD1vCUat/8emkNrOGpJLv5dUtDXsI6iLqS3vy6tQS/YB1IXSeRJf01HsE6iDreQm/Rs7yk1G6UD+I4dL2PNRVZm4XPCDehy+QgGtVRhJuQ9WhcuiyGm7iMRlY+yZ/hvpO7iP583q1jCDeSw3YkbzY+whro5QRcWo5XsIampiebq+DWZKzDLui+4mEH5qOtl6ZAH3sPQb+5IdRNa+yE1tQDdM1wbSXeIXwtf8FGxLYZWiNc8w1WwKVpmOgz+3csRNUW4wesNd/D5X2YTkJrYCHmiccYrLUKuqAk7zSsYYV7qJp+xlqr4PI46DCsYYWLqNolWGsVdPInbxH+9wRlA6q2CdZaolnDcGk/9Lm6PPQMYtOXrOX1NGMPXNNTlKvQPxPoqzBd9+umL2DvQGtewQja2tqS1en8A7p+OYUFMFvFAAAAAElFTkSuQmCC" /> */}
         </Button>
-        <Button type = "ghost"
-          inline style={{ marginRight: '4px' }} 
-          onClick={this.clearCart.bind(this, "Menu")}>Clear Cart</Button>
         <WhiteSpace />
+        {clearCartButton}
 
         {different}
       </div>
